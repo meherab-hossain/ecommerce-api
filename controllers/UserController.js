@@ -31,10 +31,12 @@ const Login = async (req, res) => {
             res.status(401).json('Wrong credentials!');
         } else {
             const OriginalPassword = decryptPassword(user.password);
+            // eslint-disable-next-line no-underscore-dangle
+            const { password, ...others } = user._doc;
             if (OriginalPassword !== req.body.password) {
                 res.status(401).json('Wrong credentials!');
             } else {
-                res.status(200).json(user);
+                res.status(200).json({ ...others });
             }
         }
     } catch (err) {
